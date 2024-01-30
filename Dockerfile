@@ -1,18 +1,23 @@
 FROM ubuntu:latest
 
-RUN apt-get update && apt-get install -y openssh-server
-RUN mkdir /var/run/sshd
-RUN echo 'root:screencast' | chpasswd
-RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN apt-get update && \
+  apt-get install -y openssh-server
 
-# SSH login fix. Otherwise user is kicked off after login
-RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-
-ENV NOTVISIBLE "in users profile"
-RUN echo "export VISIBLE=now" >> /etc/profile
+# sshd config
+RUN echo "[BEGIN] run" && \
+  mkdir -p /var/run/sshd && \
+#set root's password for ssh
+  echo "root:password" | chpasswd && \
+#enable root's login
+  perl -p -i.org -e 's/^PermitRootLogin.+/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
+  perl -p -i.org -e 's/^UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config && \
+#don't use DNS
+  echo 'UseDNS no' >> /etc/ssh/sshd_config && \
+  echo "[END]   run"
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+CMD /usr/sbin/sshd -D
+
 
 #ENTRYPOINT ["tail"]
 #CMD ["-f","/dev/null"]
