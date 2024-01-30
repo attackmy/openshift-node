@@ -1,6 +1,6 @@
 FROM node:latest
 
-USER XXX
+USER node
 
 ENTRYPOINT ["tail"]
 CMD ["-f","/dev/null"]
