@@ -6,8 +6,6 @@ ENV HOME=${APP_ROOT}
 WORKDIR ${APP_ROOT}
 # for non-root user
 RUN chmod 777 /home
-# for /bin/nologin
-ENV SHELL /bin/bash
 
 ENTRYPOINT ["tail"]
 CMD ["-f","/dev/null"]
