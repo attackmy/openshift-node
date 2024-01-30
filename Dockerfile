@@ -13,6 +13,7 @@ RUN echo "[BEGIN] run" && \
   perl -p -i.org -e 's/^UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config && \
 #don't use DNS
   echo 'UseDNS no' >> /etc/ssh/sshd_config && \
+  echo ssh-keygen -A && \
   echo "[END]   run"
 
 EXPOSE 22
