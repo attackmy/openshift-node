@@ -1,5 +1,6 @@
 # FROM ubuntu:latest
-FROM node:latest
+#FROM node:latest
+FROM debian:latest
 
 # for .vscode-server directory
 ENV APP_ROOT=/home
