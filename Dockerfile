@@ -1,6 +1,6 @@
 FROM node:latest
 
-USER node
+ENV SHELL /bin/bash
 
 ENTRYPOINT ["tail"]
 CMD ["-f","/dev/null"]
