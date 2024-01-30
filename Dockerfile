@@ -1,27 +1,9 @@
-FROM ubuntu:latest
+FROM node:latest
 
-RUN apt-get update && \
-  apt-get install -y openssh-server
+USER XXX
 
-# sshd config
-RUN echo "[BEGIN] run" && \
-  mkdir -p /var/run/sshd && \
-#set root's password for ssh
-  echo "root:password" | chpasswd && \
-#enable root's login
-  perl -p -i.org -e 's/^PermitRootLogin.+/PermitRootLogin yes/g' /etc/ssh/sshd_config && \
-  perl -p -i.org -e 's/^UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config && \
-#don't use DNS
-  echo 'UseDNS no' >> /etc/ssh/sshd_config && \
-  echo "[END]   run"
-
-USER root
-EXPOSE 22
-CMD /usr/sbin/sshd -D
-
-
-#ENTRYPOINT ["tail"]
-#CMD ["-f","/dev/null"]
+ENTRYPOINT ["tail"]
+CMD ["-f","/dev/null"]
 
 #FROM node:latest
 #FROM debian:latest
