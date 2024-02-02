@@ -1,11 +1,13 @@
 FROM node:latest
 
-# for .vscode-server directory
+# エラー (mkdir: cannot create directory ‘/.vscode-server’: Permission denied) 対応
+# .vscode-server の作成先を設定する
 ENV APP_ROOT=/home
 ENV HOME=${APP_ROOT}
 WORKDIR ${APP_ROOT}
-# for non-root user
+# もっと丁寧に権限を設定すべきだが、、
 RUN chmod 777 /home
 
+# container を止めないためのおまじない
 ENTRYPOINT ["tail"]
 CMD ["-f","/dev/null"]
